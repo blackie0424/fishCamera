@@ -1,83 +1,132 @@
 # Camera Measurement App
 
-一個使用 ARKit 進行物體測量的 iOS 應用程式。
+iOS AR 相機測量應用程式 - 使用 ARKit 測量物體尺寸並提供直觀對比物
 
-## 專案結構
+## 🚀 快速開始
+
+### 方法 1：使用 Xcode 創建 iOS 專案（推薦）
+
+1. **打開 Xcode**
+2. **創建新專案**：
+
+   - File → New → Project
+   - 選擇 "iOS" → "App"
+   - Product Name: `CameraMeasurementApp`
+   - Bundle Identifier: `com.blackie0424.CameraMeasurementApp`
+   - Language: Swift
+   - Interface: Storyboard
+   - 勾選 "Use Core Data"（可選）
+
+3. **配置 ARKit 權限**：
+   在 `Info.plist` 中添加：
+
+   ```xml
+   <key>NSCameraUsageDescription</key>
+   <string>此應用程式需要使用相機來測量物體尺寸</string>
+   <key>UIRequiredDeviceCapabilities</key>
+   <array>
+       <string>arkit</string>
+   </array>
+   ```
+
+4. **添加 ARKit Framework**：
+   - 選擇專案 → Target → General
+   - 在 "Frameworks, Libraries, and Embedded Content" 中點擊 "+"
+   - 添加 `ARKit.framework`
+
+### 方法 2：目前的 Swift Package（用於測試）
+
+```bash
+# 編譯和運行基礎測試
+swift run --package-path CameraMeasurementApp
+
+# 或者
+cd CameraMeasurementApp
+swift run
+```
+
+## 📱 系統需求
+
+- **iOS 13.0+**
+- **iPhone 8 或更新版本**（支援 ARKit）
+- **Xcode 15.0+**
+- **Swift 5.9+**
+
+## 🏗️ 專案架構
 
 ```
 CameraMeasurementApp/
-├── CameraMeasurementApp/
-│   ├── Models/                     # 數據模型
-│   │   └── DeviceCapability.swift  # 設備能力檢測
-│   ├── Services/                   # 服務層
-│   │   └── ARMeasurementEngineDelegate.swift  # AR 測量引擎委託
-│   ├── ViewControllers/            # 視圖控制器
-│   │   ├── CameraViewController.swift         # 主相機控制器
-│   │   └── CameraViewControllerDelegate.swift # 相機控制器委託
-│   ├── Extensions/                 # 擴展 (待實現)
-│   ├── AppDelegate.swift          # 應用程式委託
-│   ├── SceneDelegate.swift        # 場景委託
-│   ├── Info.plist                 # 應用程式配置
-│   ├── Assets.xcassets/           # 資源文件
-│   └── Base.lproj/                # 本地化資源
-│       ├── Main.storyboard        # 主故事板
-│       └── LaunchScreen.storyboard # 啟動畫面
-└── CameraMeasurementApp.xcodeproj/ # Xcode 專案文件
+├── Models/              # 數據模型
+│   ├── MeasurementResult.swift
+│   ├── Dimensions.swift
+│   └── DeviceCapability.swift
+├── Services/            # 業務邏輯服務
+│   ├── ARMeasurementEngine.swift
+│   ├── ObjectDetection.swift
+│   └── DataManager.swift
+├── ViewControllers/     # UI 控制器
+│   ├── CameraViewController.swift
+│   └── HistoryViewController.swift
+└── Resources/           # 資源文件
+    ├── Assets.xcassets
+    └── Storyboards/
 ```
 
-## 核心功能
+## 🎯 核心功能
 
-### 已實現
+1. **AR 測量引擎**
 
-- ✅ iOS 專案結構設置
-- ✅ ARKit 權限配置
-- ✅ 核心協議定義 (ARMeasurementEngineDelegate, CameraViewControllerDelegate)
-- ✅ 基礎相機視圖控制器
-- ✅ 設備能力檢測模型
-- ✅ AR 會話管理
+   - 使用 ARKit 進行物體檢測
+   - LiDAR 感應器支援（iPhone 12+）
+   - 精度驗證和校準
 
-### 待實現
+2. **智能對比物系統**
 
-- ⏳ 物體檢測和測量算法
-- ⏳ 對比物系統
-- ⏳ 測量結果顯示
-- ⏳ 數據持久化
-- ⏳ 錯誤處理系統
+   - 硬幣、打火機、手機等常見物品
+   - 基於物體尺寸自動選擇
+   - 3D 模型顯示
 
-## 系統要求
+3. **測量結果管理**
+   - 即時顯示測量數值
+   - 保存測量歷史
+   - 圖片和數據關聯
 
-- iOS 12.0+
-- iPhone 8 或更新版本
-- ARKit 支援
-- 相機權限
+## 🔧 開發指南
 
-## 核心協議
+### 下一步開發任務
 
-### ARMeasurementEngineDelegate
+參考 `tasks.md` 文件中的實作計劃：
 
-負責處理測量過程中的各種事件：
+1. ✅ **任務 1**: 設置專案結構和核心介面
+2. 📋 **任務 2**: 實作數據模型和驗證
+3. 📋 **任務 3**: 建立相機和 AR 會話管理
+4. 📋 **任務 4**: 實作物體檢測和測量引擎
 
-- 測量完成回調
-- 測量失敗處理
-- 精度警告
-- 進度更新
+### 編譯和測試
 
-### CameraViewControllerDelegate
+```bash
+# 使用 Xcode 編譯（推薦）
+open CameraMeasurementApp.xcodeproj
 
-負責處理相機相關的用戶交互：
+# 或使用命令行（僅限 Swift Package 版本）
+swift build --package-path CameraMeasurementApp
+swift test --package-path CameraMeasurementApp
+```
 
-- 拍攝按鈕點擊
-- 測量結果捕獲
-- 錯誤處理
-- AR 會話狀態變化
+## 📋 當前狀態
 
-## 設備能力檢測
+- ✅ 專案基礎架構已建立
+- ✅ Swift Package Manager 配置完成
+- 🔄 準備轉換為完整的 iOS 專案
+- 📋 等待實作核心 AR 功能
 
-應用程式會自動檢測設備能力：
+## 🤝 貢獻指南
 
-- ARKit 支援檢查
-- LiDAR 感應器檢測
-- 場景重建能力
-- 物體檢測支援
+1. 查看 `requirements.md` 了解功能需求
+2. 參考 `design.md` 了解架構設計
+3. 按照 `tasks.md` 中的任務順序開發
+4. 每完成一個任務提交一次 commit
 
-根據設備能力自動調整測量策略，確保在不同 iPhone 型號上都能正常運作。
+## 📄 授權
+
+此專案為個人開發專案，請遵循相關開源協議。
