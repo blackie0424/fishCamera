@@ -1,6 +1,6 @@
 # 實作計劃
 
-- [ ] 1. 設置專案結構和核心介面
+- [x] 1. 設置專案結構和核心介面
 
   - 建立 iOS 專案並配置 ARKit 權限和功能
   - 創建主要的目錄結構：Models, Services, ViewControllers, Extensions
